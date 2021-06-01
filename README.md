@@ -29,7 +29,7 @@ The video captioning model trained for DuCo-StoryGAN (see above) is used for eva
 ```python train_mart.py --data_dir <path-to-data-directory>```
 
 * Hierarchical Deep Multimodal Similarity (H-DAMSM)\
-```python train_damsm.py --cfg ./cfg/pororo_hdamsm.yml --data_dir <path-to-data-directory>```
+```python train_damsm.py --cfg ./cfg/pororo_damsm.yml --data_dir <path-to-data-directory>```
     
 * Character Classifier\
 ```python train_classifier.py --data_dir <path-to-data-directory> --model_name inception --save_path ./models/inception --batch_size 8 --learning_rate 1e-05```

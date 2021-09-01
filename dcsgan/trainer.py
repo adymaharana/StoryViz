@@ -43,8 +43,9 @@ class PerceptualLoss(nn.Module):
         return perception_loss
 
 class GANTrainer(object):
-    def __init__(self, cfg, output_dir, ratio = 1.0):
+    def __init__(self, cfg, output_dir=None, ratio = 1.0):
         if cfg.TRAIN.FLAG:
+            assert output_dir, "Output directory is required for training"
             output_dir = output_dir + '_r' + str(ratio) + '/'
             self.model_dir = os.path.join(output_dir, 'Model')
             self.image_dir = os.path.join(output_dir, 'Image')
@@ -307,7 +308,6 @@ class GANTrainer(object):
                 #    nn.parallel.data_parallel(netG.sample_videos, st_inputs, self.gpus)
                 lr_st_fake, st_fake, m_mu, m_logvar, c_mu, c_logvar = netG.sample_videos(*st_inputs)
 
-
                 if self.use_mart:
                     im_inputs = (im_motion_input, im_content_input, im_input_ids, im_masks, im_labels)
                 else:
@@ -315,9 +315,6 @@ class GANTrainer(object):
                 #lr_im_fake, im_fake, im_mu, im_logvar, cim_mu, cim_logvar = \
                 #    nn.parallel.data_parallel(netG.sample_images, im_inputs, self.gpus)
                 lr_im_fake, im_fake, im_mu, im_logvar, cim_mu, cim_logvar = netG.sample_images(*im_inputs)
-
-                # print(st_fake.shape, im_fake.shape)
-
 
                 characters_mu = (st_labels.mean(1)>0).type(torch.FloatTensor).cuda()
                 st_mu = torch.cat((c_mu, st_motion_input[:,:, :self.cfg.TEXT.DIMENSION].mean(1).squeeze(), characters_mu), 1)
@@ -455,7 +452,6 @@ class GANTrainer(object):
             if epoch % 5 == 0:
                 save_model(netG, netD_im, netD_st, epoch, self.model_dir)
 
-        # np.save(os.path.join(self.model_dir, 'losses.npy'), loss_collector)
         with open(os.path.join(self.model_dir, 'losses.pkl'), 'wb') as f:
             pickle.dump(loss_collector, f)
 

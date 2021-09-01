@@ -171,7 +171,7 @@ def compute_dual_captioning_loss(netDual, st_fake, real_targets, vocab, gpus, fe
         valid_label_mask = gold.ne(-1)
         n_word += valid_label_mask.sum().item()
 
-    errDual = 0.5*loss/n_word
+    errDual = loss/n_word
     return errDual, {'Story Dual Loss --> ': errDual.data.item()}
 
 
@@ -364,12 +364,12 @@ def save_story_results(ground_truth, images, texts, idx, image_dir, epoch, lr = 
 
     output = PIL.Image.fromarray(all_images)
     if lr:
-         output.save('%s/lr_samples_epoch_%03d_%03d.png' % (image_dir, epoch, idx))
+         output.save(os.path.join(image_dir, 'lr_samples_epoch_%03d_%03d.png' % (epoch, idx)))
     else:
-        output.save('%s/fake_samples_epoch_%03d_%03d.png' % (image_dir, epoch, idx))
+        output.save(os.path.join(image_dir, 'fake_samples_epoch_%03d_%03d.png' % (epoch, idx)))
 
     if texts is not None:
-        fid = open('%s/fake_samples_epoch_%03d.txt' % (image_dir, epoch), 'w')
+        fid = open(os.path.join(image_dir, 'fake_samples_epoch_%03d_%03d.txt' % (epoch, idx)), 'w')
         for idx in range(images.shape[0]):
             fid.write(str(idx) + '--------------------------------------------------------\n')
             for i in range(len(texts)):
@@ -448,7 +448,7 @@ def save_test_samples(netG, dataloader, save_path, epoch, mart=False):
             save_story_results(real_cpu, fake, batch['text'], i, save_path, epoch, upscale=True if fake.shape[-1]==128 else False)
             save_images.append(fake.cpu().data.numpy())
             save_labels.append(catelabel.cpu().data.numpy())
-            break
+
     save_images = np.concatenate(save_images, 0)
     save_labels = np.concatenate(save_labels, 0)
     if epoch % 5 == 0 and epoch >= 50:

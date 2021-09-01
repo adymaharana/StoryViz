@@ -35,5 +35,13 @@ The video captioning model trained for DuCo-StoryGAN (see above) is used for eva
 ```python train_classifier.py --data_dir <path-to-data-directory> --model_name inception --save_path ./models/inception --batch_size 8 --learning_rate 1e-05```
 
 
+#### Inference from DuCo-StoryGAN:
+
+Use the following command to infer from trained weights for DuCo-StoryGAN:\
+```python train_gan.py --cfg ./cfg/pororo_s1_duco_eval.yml --data_dir <path-to-data-directory> --checkpoint <path-to-weights> --infer_dir <path-to-output-directory>```
+
+
+Download our pretrained checkpoint from [here](https://drive.google.com/file/d/1BlGhGD2P7bn91S5NCrKY5Vx3YNcdodZr/view?usp=sharing).
+
 ### Acknowledgements
 The code in this repository has been adapted from the [MART](https://github.com/jayleicn/recurrent-transformer), [StoryGAN](https://github.com/yitong91/StoryGAN) and [MirrorGAN](https://github.com/qiaott/MirrorGAN) codebases.

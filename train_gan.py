@@ -130,7 +130,10 @@ if __name__ == "__main__":
     else:
 
         assert args.checkpoint
-        assert args.output_dir
+        assert args.infer_dir
+
+        if not os.path.exists(args.infer_dir):
+            os.makedirs(args.infer_dir)
 
         def video_transform(video, image_transform):
             vid = []
@@ -175,6 +178,5 @@ if __name__ == "__main__":
             testdataset, batch_size=4,
             drop_last=True, shuffle=False, num_workers=int(cfg.WORKERS))
 
-        datapath= '%s/test/val_captions.t7' % (cfg.DATA_DIR)
-        algo = GANTrainer(cfg, output_dir)
-        algo.sample(testloader, args.checkpoint, args.output_dir, cfg.STAGE)
+        algo = GANTrainer(cfg)
+        algo.sample(testloader, args.checkpoint, args.infer_dir, cfg.STAGE)

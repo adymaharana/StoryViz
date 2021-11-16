@@ -142,7 +142,6 @@ def main():
 
     parser.add_argument("--eval_mode", type=str, default="val",
                         choices=["val", "test"], help="evaluate on val/test set, yc2 only has val")
-    parser.add_argument("--res_dir", required=True, help="path to dir containing model .pt file")
     parser.add_argument("--batch_size", type=int, default=100, help="batch size")
 
     # beam search configs
@@ -174,7 +173,7 @@ def main():
     np.random.seed(opt.seed)
     torch.manual_seed(opt.seed)
 
-    checkpoint = torch.load(os.path.join(opt.res_dir, opt.checkpoint_file))
+    checkpoint = torch.load(opt.checkpoint_file)
 
     # add some of the train configs
     train_opt = checkpoint["opt"]  # EDict(load_json(os.path.join(opt.res_dir, "model.cfg.json")))
@@ -186,8 +185,9 @@ def main():
 
     decoding_strategy = "beam{}_lp_{}_la_{}".format(
         opt.beam_size, opt.length_penalty_name, opt.length_penalty_alpha) if opt.use_beam else "greedy"
+    res_dir = os.path.dirname(opt.checkpoint_file)
     save_json(vars(opt),
-              os.path.join(opt.res_dir, "{}_eval_cfg.json".format(decoding_strategy)),
+              os.path.join(res_dir, "{}_eval_cfg.json".format(decoding_strategy)),
               save_pretty=True)
 
     # if opt.dset_name == "anet":
@@ -231,7 +231,7 @@ def main():
 
     device = torch.device("cuda" if opt.cuda else "cpu")
 
-    pred_file = os.path.join(opt.res_dir, "{}_pred_{}.json".format(decoding_strategy, opt.eval_mode))
+    pred_file = os.path.join(res_dir, "{}_pred_{}.json".format(decoding_strategy, opt.eval_mode))
     pred_file = os.path.abspath(pred_file)
     # if not os.path.exists(pred_file):
     json_res = run_translate(eval_data_loader, translator, opt,

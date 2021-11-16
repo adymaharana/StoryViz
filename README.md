@@ -45,10 +45,13 @@ Download our pretrained checkpoint from [here](https://drive.google.com/file/d/1
 
 #### Evaluation:
 Download the pretrained models for evaluations:\
-[Character Classifier](https://drive.google.com/file/d/1xK6JOgQn_INQ3mBrA338BC2KoeM0TagR/view?usp=sharing)
+[Character Classifier](https://drive.google.com/file/d/1xK6JOgQn_INQ3mBrA338BC2KoeM0TagR/view?usp=sharing), [Video Captioning](https://drive.google.com/file/d/1-6tHxwEGRXqIMNLUGnbtWa9P3YRaLNpG/view?usp=sharing)
 
 Use the following command to evaluate classification accuracy of generated images:\
 ```python eval_scripts/eval_classifier.py --image_path <path to generated images directory or numpy file> --data_dir <path to ground truth image directory> --model_path <path-to-classifier model> --model_name inception --mode <val or test>```
+
+Use the following command to evaluate BLEU Score of generated images:\
+```python eval_scripts/translate.py --batch_size 50 --pred_dir <path to generated images directory; same as classifier> --data_dir <path to ground truth image directory> --checkpoint_file <path-to-captioning-model> --eval_mode <val or test>```
 
 ### Acknowledgements
 The code in this repository has been adapted from the [MART](https://github.com/jayleicn/recurrent-transformer), [StoryGAN](https://github.com/yitong91/StoryGAN) and [MirrorGAN](https://github.com/qiaott/MirrorGAN) codebases.

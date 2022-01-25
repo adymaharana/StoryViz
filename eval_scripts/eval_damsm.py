@@ -35,11 +35,13 @@ def parse_args():
                         help='optional config file',
                         default='cfg/DAMSM/bird.yml', type=str)
     parser.add_argument('--gpu', dest='gpu_id', type=int, default=0)
+    parser.add_argument('--output_dir', dest='output_dir', type=str, default='')
     parser.add_argument('--data_dir', dest='data_dir', type=str, default='')
     parser.add_argument('--manualSeed', type=int, help='manual seed')
     parser.add_argument('--debug', action='store_true')
     parser.add_argument('--ground_truth', action='store_true')
     parser.add_argument('--img_dir', type=str, default='')
+    parser.add_argument('--mode', type=str, required=True)
     args = parser.parse_args()
     return args
 
@@ -452,10 +454,6 @@ if __name__ == "__main__":
     # timestamp = now.strftime('%Y_%m_%d_%H_%M_%S')
     # output_dir = './output/%s_%s' % \
     #     (cfg.DATASET_NAME, cfg.CONFIG_NAME)
-    output_dir = './output/%s_stageI' % cfg.DATASET_NAME
-
-    model_dir = os.path.join(output_dir, 'Model')
-    image_dir = os.path.join(output_dir, 'Image')
 
     torch.cuda.set_device(0)
     cudnn.benchmark = True
@@ -478,17 +476,15 @@ if __name__ == "__main__":
     # out_dir = '/ssd-playpen/home/adyasha/projects/StoryGAN/src/output/pororo_transformer_stageI_r1.0/Test/images-epoch-150/'
     out_dir = args.img_dir
 
-    base_test = data.VideoFolderDataset(dir_path, counter, dir_path, 4, "val")
-    testdataset = data.StoryDataset(base_test, dir_path, video_transform_val, return_caption=True,
-                                    out_dir=out_dir)
+    base_test = data.VideoFolderDataset(dir_path, counter, dir_path, 4, args.mode)
+    testdataset = data.StoryDataset(base_test, dir_path, video_transform_val, return_caption=True, out_dir=out_dir)
     testloader = torch.utils.data.DataLoader(
         testdataset, batch_size=cfg.TRAIN.ST_BATCH_SIZE,
         drop_last=True, shuffle=False, num_workers=int(cfg.WORKERS))
 
     n_hidden = 256
     # Train ##############################################################
-    text_encoder, image_encoder = load_models(model_dir, len(testdataset.vocab), cfg.TEXT.DIMENSION,
-                                                           hidden_dim=n_hidden, debug=args.debug)
+    text_encoder, image_encoder = load_models(args.output_dir, len(testdataset.vocab), cfg.TEXT.DIMENSION, hidden_dim=n_hidden, debug=args.debug)
     para = list(text_encoder.parameters())
     if not args.debug:
         for v in image_encoder.parameters():

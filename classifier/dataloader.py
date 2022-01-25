@@ -101,8 +101,13 @@ class StoryImageDataset(torch.utils.data.Dataset):
                 # transforms.Normalize([0.485, 0.456, 0.406], [0.229, 0.224, 0.225])
             ])
         else:
-            # self.ids = val_ids[:2304]
-            self.ids = test_ids
+            if mode == 'val':
+                self.ids = val_ids[:2304]
+            elif mode == 'test':
+                self.ids = test_ids
+            else:
+                raise ValueError
+            
             self.transform = transforms.Compose([
                 transforms.Resize(im_input_size),
                 transforms.CenterCrop(im_input_size),

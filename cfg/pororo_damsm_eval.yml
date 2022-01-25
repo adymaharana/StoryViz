@@ -24,7 +24,7 @@ TRAIN:
         GAMMA1: 5.0
         GAMMA2: 5.0
         GAMMA3: 10.0
-    NET_E: 'text_encoder190.pth'
+    NET_E: 'text_encoder30.pth'
 
 GAN:
     CONDITION_DIM: 124

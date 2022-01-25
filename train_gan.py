@@ -153,7 +153,7 @@ if __name__ == "__main__":
         counter = np.load(os.path.join(dir_path, 'frames_counter.npy'), allow_pickle=True).item()
 
         test_dir_path = dir_path
-        base_test = data.VideoFolderDataset(test_dir_path, counter, test_dir_path, 4, mode='val')
+        base_test = data.VideoFolderDataset(test_dir_path, counter, test_dir_path, 4, mode='test')
         testdataset = data.StoryDataset(base_test, test_dir_path, video_transforms,
                                         return_caption=cfg.USE_MART or cfg.IMG_DUAL or cfg.STORY_DUAL)
 

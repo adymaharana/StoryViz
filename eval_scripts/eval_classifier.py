@@ -1,5 +1,8 @@
 from __future__ import print_function
 from __future__ import division
+import os, sys
+sys.path.append('.')
+
 import torch.nn as nn
 from torchvision import models
 import torch
@@ -7,11 +10,13 @@ from classifier.dataloader import ImageDataset, StoryImageDataset
 from tqdm import tqdm
 import numpy as np
 from scipy.stats import entropy
-import os
+
 import PIL
 import torchvision.utils as vutils
 import argparse
 from sklearn.metrics import classification_report, accuracy_score
+
+
 
 epsilon = 1e-7
 
@@ -274,7 +279,7 @@ def evaluate(image_path, data_dir, model_name, model_path, mode):
         out_img_folder = image_path
 
     # Create training and validation datasets
-    image_dataset = StoryImageDataset(data_dir, input_size, out_img_folder=image_path, mode=mode)
+    image_dataset = StoryImageDataset(data_dir, input_size, out_img_folder=out_img_folder, mode=mode)
     print("Number of samples in evaluation set: %s" % len(image_dataset))
     batch_size = 8
 

@@ -3,6 +3,9 @@
 PyTorch code for the NAACL 2021 paper "Improving Generation and Evaluation of Visual Stories via Semantic Consistency".
 Link to arXiv paper: [https://arxiv.org/abs/2105.10026](https://arxiv.org/abs/2105.10026)
 
+#### Update (1/24/2022)
+The model weights from best checkpoint previously available in this repository were incorrect. We have updated the link to the best checkpoint, and also made corrections in the inference and evaluation scripts for using the correct mode (test vs. val). The inference and evaluation for FID, classification scores has been verified with this codebase now, to reproduce the numbers in Table 1. - Authors.
+
 #### Requirements:
 This code has been tested on torch==1.7.1 and torchvision==0.8.2
 
@@ -40,8 +43,8 @@ The video captioning model trained for DuCo-StoryGAN (see above) is used for eva
 Use the following command to infer from trained weights for DuCo-StoryGAN:\
 ```python train_gan.py --cfg ./cfg/pororo_s1_duco_eval.yml --data_dir <path-to-data-directory> --checkpoint <path-to-weights> --infer_dir <path-to-output-directory>```
 
-
-Download our pretrained checkpoint from [here](https://drive.google.com/file/d/1BlGhGD2P7bn91S5NCrKY5Vx3YNcdodZr/view?usp=sharing).
+Download our pretrained checkpoint from [here](https://drive.google.com/file/d/1H2_-WzETyDZRrRX0ohKmu9l128tkft8k/view?usp=sharing).
+The predictions on PororoSV test set with this checkpoint are available [here](https://drive.google.com/file/d/1IeWuDuQOXqT5jD48nR2UcofiB0Onv7Uf/view?usp=sharing)
 
 #### Evaluation:
 Download the pretrained models for evaluations:\

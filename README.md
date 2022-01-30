@@ -4,7 +4,7 @@ PyTorch code for the NAACL 2021 paper "Improving Generation and Evaluation of Vi
 Link to arXiv paper: [https://arxiv.org/abs/2105.10026](https://arxiv.org/abs/2105.10026)
 
 #### Update (1/24/2022)
-The model weights from best checkpoint previously available in this repository were incorrect. We have updated the link to the best checkpoint, and also made corrections in the inference and evaluation scripts for using the correct mode (test vs. val). The inference and evaluation for FID, classification scores has been verified with this codebase now, to reproduce the numbers in Table 1. - Authors.
+The model weights from best checkpoint previously available in this repository were incorrect. We have updated the link to the best checkpoint, and also made corrections in the inference and evaluation scripts for using the correct mode (test vs. val). The inference and evaluation for FID, classification scores has been verified with this codebase now, to reproduce the numbers in Table 1. Please see the VLCStoryGAN [repo](https://github.com/adymaharana/VLCStoryGan) for FID results. - Authors.
 
 #### Requirements:
 This code has been tested on torch==1.7.1 and torchvision==0.8.2

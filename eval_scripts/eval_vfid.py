@@ -18,6 +18,7 @@ def main(args):
     ref_dataset = data.StoryImageDataset(args.img_ref_dir,
                                     args.imsize,
                                     mode=args.mode,
+                                    out_img_folder=None,
                                     transform=image_transforms)
     gen_dataset = data.StoryImageDataset(args.img_ref_dir,
                                     args.imsize,
